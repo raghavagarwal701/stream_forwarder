@@ -11,6 +11,7 @@ RTMP_SERVER = "rtmp://localhost:1935/live"
 # Dictionary to keep track of active streams
 active_streams = {}
 
+
 def stream_to_youtube(stream_name, youtube_url, stop_event):
     input_url = f"{RTMP_SERVER}/{stream_name}"
     # overlay_image = '/path/to/your/overlay/'+stream_name+'.png'  # Update this path to your overlay image
@@ -18,19 +19,22 @@ def stream_to_youtube(stream_name, youtube_url, stop_event):
 
     ffmpeg_command = [
         'ffmpeg',
-        '-i', input_url,  # Input RTMP stream
-        '-i', overlay_image,  # Overlay image
-        '-filter_complex', 'overlay=10:10',  # Overlay position (adjust as needed)
-        '-c:a', 'copy',  # Audio codec
-        '-f', 'flv',  # Output format
-        youtube_url  # YouTube RTMP URL
+        '-i', input_url,          # Input RTMP stream
+        '-i', overlay_image,      # Overlay image
+        # Proper overlay specification with stream indices
+        '-filter_complex', '[0:v][1:v]overlay=10:10',
+        '-map', '0:a',            # Map audio from input RTMP stream
+        '-c:a', 'copy',           # Copy audio codec
+        '-f', 'flv',              # Output format for YouTube
+        youtube_url               # YouTube RTMP URL
     ]
 
     process = subprocess.Popen(ffmpeg_command)
 
     while not stop_event.is_set():
         if process.poll() is not None:
-            print(f"FFmpeg process for stream {stream_name} has ended unexpectedly.")
+            print(f"FFmpeg process for stream {
+                  stream_name} has ended unexpectedly.")
             break
 
     if process.poll() is None:
@@ -38,6 +42,7 @@ def stream_to_youtube(stream_name, youtube_url, stop_event):
         process.wait()
 
     print(f"Stream {stream_name} stopped")
+
 
 @app.route('/start_stream', methods=['POST'])
 def start_stream():
@@ -48,12 +53,12 @@ def start_stream():
     if not youtube_url or not stream_name:
         return jsonify({'error': 'Missing youtube_url or stream_name'}), 400
 
-
     if stream_name in active_streams:
         return jsonify({'error': 'Stream already active'}), 409
 
     stop_event = threading.Event()
-    thread = threading.Thread(target=stream_to_youtube, args=(stream_name, youtube_url, stop_event))
+    thread = threading.Thread(target=stream_to_youtube, args=(
+        stream_name, youtube_url, stop_event))
     thread.start()
 
     active_streams[stream_name] = {
@@ -64,13 +69,13 @@ def start_stream():
 
     return jsonify({'message': f'Stream {stream_name} started successfully'}), 200
 
+
 @app.route('/stop_stream', methods=['POST'])
 def stop_stream():
     data = request.json
     stream_name = data.get('stream_name')
     if not stream_name:
         return jsonify({'error': 'Missing stream_name'}), 400
-
 
     if stream_name not in active_streams:
         return jsonify({'error': 'Stream not found'}), 404
@@ -82,10 +87,10 @@ def stop_stream():
     return jsonify({'message': f'Stream {stream_name} stopped successfully'}), 200
 
 
-
 @app.route('/list_streams', methods=['GET'])
 def list_streams():
     return jsonify({name: {'youtube_url': info['youtube_url']} for name, info in active_streams.items()}), 200
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1233)
