@@ -19,14 +19,15 @@ def stream_to_youtube(stream_name, youtube_url, stop_event):
 
     ffmpeg_command = [
         'ffmpeg',
-        '-i', input_url,          # Input RTMP stream
-        # '-i', overlay_image,      # Overlay image
-        # # Proper overlay specification with stream indices
-        # '-filter_complex', '[0:v][1:v]overlay=10:10',
-        '-map', '0:a',            # Map audio from input RTMP stream
-        '-c:a', 'copy',           # Copy audio codec
-        '-f', 'flv',              # Output format for YouTube
-        youtube_url               # YouTube RTMP URL
+        '-i', input_url,
+        '-i', overlay_image,
+        '-filter_complex', '[0:v][1:v]overlay=10:10',
+        '-map', '0:a',
+        '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '3000k', '-maxrate', '3000k', '-bufsize', '6000k',
+        '-pix_fmt', 'yuv420p', '-g', '60',
+        '-c:a', 'aac', '-b:a', '128k', '-ar', '44100',
+        '-f', 'flv',
+        youtube_url
     ]
 
     process = subprocess.Popen(ffmpeg_command)
@@ -49,7 +50,7 @@ def start_stream():
     data = request.json
     youtube_url = data.get('youtube_url')
     stream_name = data.get('stream_name')
-
+    print(youtube_url, stream_name)
     if not youtube_url or not stream_name:
         return jsonify({'error': 'Missing youtube_url or stream_name'}), 400
 
