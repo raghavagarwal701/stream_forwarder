@@ -20,9 +20,9 @@ def stream_to_youtube(stream_name, youtube_url, stop_event):
     ffmpeg_command = [
         'ffmpeg',
         '-i', input_url,          # Input RTMP stream
-        '-i', overlay_image,      # Overlay image
-        # Proper overlay specification with stream indices
-        '-filter_complex', '[0:v][1:v]overlay=10:10',
+        # '-i', overlay_image,      # Overlay image
+        # # Proper overlay specification with stream indices
+        # '-filter_complex', '[0:v][1:v]overlay=10:10',
         '-map', '0:a',            # Map audio from input RTMP stream
         '-c:a', 'copy',           # Copy audio codec
         '-f', 'flv',              # Output format for YouTube
