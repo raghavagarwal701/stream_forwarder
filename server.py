@@ -14,6 +14,7 @@ active_streams = {}
 
 def stream_to_youtube(stream_name, youtube_url, stop_event):
     input_url = f"{RTMP_SERVER}/{stream_name}"
+    print(input_url)
     # overlay_image = '/path/to/your/overlay/'+stream_name+'.png'  # Update this path to your overlay image
     overlay_image = 'sampleimage.png'
 
