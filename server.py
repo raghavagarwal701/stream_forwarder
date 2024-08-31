@@ -22,11 +22,8 @@ def stream_to_youtube(stream_name, youtube_url, stop_event):
         'ffmpeg',
         '-i', input_url,
         '-i', overlay_image,
-        '-filter_complex', '[0:v][1:v]overlay=10:10',
-        '-map', '0:a',
-        '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '3000k', '-maxrate', '3000k', '-bufsize', '6000k',
-        '-pix_fmt', 'yuv420p', '-g', '60',
-        '-c:a', 'aac', '-b:a', '128k', '-ar', '44100',
+        '-filter_complex', 'overlay=10:10',
+        '-c:v', 'libx264', '-c:a', 'aac', '-strict experimental',
         '-f', 'flv',
         youtube_url
     ]
