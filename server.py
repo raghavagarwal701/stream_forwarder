@@ -18,28 +18,28 @@ def stream_to_youtube(stream_name, youtube_url, stop_event):
     # overlay_image = '/path/to/your/overlay/'+stream_name+'.png'  # Update this path to your overlay image
     overlay_image = 'sampleimage.png'
 
-    # ffmpeg_command = [
-    #     'ffmpeg',
-    #     '-i', input_url,
-    #     '-i', overlay_image,
-    #     '-filter_complex', '[0:v]transpose=1[v];[v][1:v]overlay=10:10',
-    #     '-c:v', 'libx264',
-    #     '-c:a', 'aac',
-    #     '-strict', 'experimental',
-    #     '-f', 'flv',
-    #     youtube_url
-    # ]
     ffmpeg_command = [
         'ffmpeg',
         '-i', input_url,
         '-i', overlay_image,
-        '-filter_complex', 'overlay=350:550',
-        '-c:v', 'libx264', 
-        '-c:a', 'aac', 
+        '-filter_complex', '[0:v]transpose=1[v];[v][1:v]overlay=10:10',
+        '-c:v', 'libx264',
+        '-c:a', 'aac',
         '-strict', 'experimental',
         '-f', 'flv',
         youtube_url
     ]
+    # ffmpeg_command = [
+    #     'ffmpeg',
+    #     '-i', input_url,
+    #     '-i', overlay_image,
+    #     '-filter_complex', 'overlay=350:550',
+    #     '-c:v', 'libx264', 
+    #     '-c:a', 'aac', 
+    #     '-strict', 'experimental',
+    #     '-f', 'flv',
+    #     youtube_url
+    # ]
 
     process = subprocess.Popen(ffmpeg_command)
 
