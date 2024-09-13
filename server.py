@@ -71,21 +71,20 @@ def main(stream_name):
     batting_team_text_width = len(score['batting_team']) * 10
     # Define score details with their specific coordinates and font sizes
     score_elements = [
-        {"text": f"{score['batting_team']}", "position": (35, 3), "font_size": 23},
-        {"text": f"{score['bowling_team']}", "position": (35, 45), "font_size": 23},
+        {"text": f"{score['batting_team']}", "position": (35, 3), "font_size": 25, "color": "white"},
+        {"text": f"{score['bowling_team']}", "position": (35, 45), "font_size": 22, "color": "white"},
         {"text": f"{score['score']}", "position": (35 + batting_team_text_width + 30, 6), "font_size": 20, "color": '#FFCB05'},
-        {"text": f"{score['overs_bowled']} ", "position": (150, 14), "font_size": 14},
-        {"text": f"{score['batter_one']}:  {score['batter_one_score']['runs']}({score['batter_one_score']['balls']})", "position": (325, 10), "font_size": 20},
-        {"text": f"{score['batter_two']}:  {score['batter_two_score']['runs']}({score['batter_two_score']['balls']})", "position": (325, 45), "font_size": 20},
-        {"text": f"{score['bowler']}", "position": (629, 23), "font_size": 20},
-        {"text": f"{score['bowler_figure']['ballsDelivered']}", "position": (757, 23), "font_size": 20},
-        {"text": f"balls", "position": (750, 49), "font_size": 12},
-        {"text": f"{score['bowler_figure']['runsGiven']}", "position": (802, 23), "font_size": 20},
-        {"text": f"runs", "position": (798, 49), "font_size": 12},
-        {"text": f"{score['bowler_figure']['wickets']}", "position": (855, 23), "font_size": 20},
-        {"text": f"wickets", "position": (840, 49), "font_size": 12},
+        {"text": f"{score['overs_bowled']} ", "position": (150, 14), "font_size": 14, "color": "#FFCB05"},
+        {"text": f"{score['batter_one']}:  {score['batter_one_score']['runs']}({score['batter_one_score']['balls']})", "position": (325, 10), "font_size": 20, "color": "#ACEB6D;"},
+        {"text": f"{score['batter_two']}:  {score['batter_two_score']['runs']}({score['batter_two_score']['balls']})", "position": (325, 45), "font_size": 17, "color": "white"},
+        {"text": f"{score['bowler']}", "position": (629, 23), "font_size": 20, "color": "#ACEB6D;"},
+        {"text": f"{score['bowler_figure']['ballsDelivered']}", "position": (757, 23), "font_size": 20, "color": "white"},
+        {"text": f"balls", "position": (750, 49), "font_size": 12, "color": "white"},
+        {"text": f"{score['bowler_figure']['runsGiven']}", "position": (802, 23), "font_size": 20, "color": "white"},
+        {"text": f"runs", "position": (798, 49), "font_size": 12, "color": "white"},
+        {"text": f"{score['bowler_figure']['wickets']}", "position": (855, 23), "font_size": 20, "color": "white"},
+        {"text": f"wickets", "position": (840, 49), "font_size": 12, "color": "white"},
     ]
-
     # Loop through score elements and add each to the image
     for element in score_elements:
         # Adjust font size if specified
