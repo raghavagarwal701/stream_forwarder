@@ -56,7 +56,7 @@ def main(stream_name):
     print(score)
 
     # Open the sample image
-    img = Image.open('sampleimage.png')
+    img = Image.open('score_image.png')
     draw = ImageDraw.Draw(img)
 
     # Load custom font (if available, otherwise default font)
@@ -68,14 +68,22 @@ def main(stream_name):
         font = ImageFont.load_default()
 
     # Define score details with their specific coordinates and font sizes
+    batting_team_text_width = len(score['batting_team']) * 10
+    # Define score details with their specific coordinates and font sizes
     score_elements = [
-        {"text": f"{score['batting_team']}", "position": (230, 3), "font_size": 44},
-        {"text": f"{score['bowling_team']}", "position": (1800, 3), "font_size": 44},
-        {"text": f"{score['score']}", "position": (1000, 60), "font_size": 54},
-        {"text": f"{score['overs_bowled']} ", "position": (1120, 80), "font_size": 34},
-        {"text": f"{score['batter_one']}:  {score['batter_one_score']['runs']}({score['batter_one_score']['balls']})", "position": (85, 70), "font_size": 35},
-        {"text": f"{score['batter_two']}:  {score['batter_two_score']['runs']}({score['batter_two_score']['balls']})", "position": (85, 130), "font_size": 35},
-        {"text": f"{score['bowler']} - {score['bowler_figure']['runsGiven']}/{score['bowler_figure']['wickets']} in {score['bowler_figure']['ballsDelivered']} balls", "position": (1650, 100), "font_size": 40}
+        {"text": f"{score['batting_team']}", "position": (35, 3), "font_size": 23},
+        {"text": f"{score['bowling_team']}", "position": (35, 45), "font_size": 23},
+        {"text": f"{score['score']}", "position": (35 + batting_team_text_width + 30, 6), "font_size": 20, "color": '#FFCB05'},
+        {"text": f"{score['overs_bowled']} ", "position": (150, 14), "font_size": 14},
+        {"text": f"{score['batter_one']}:  {score['batter_one_score']['runs']}({score['batter_one_score']['balls']})", "position": (325, 10), "font_size": 20},
+        {"text": f"{score['batter_two']}:  {score['batter_two_score']['runs']}({score['batter_two_score']['balls']})", "position": (325, 45), "font_size": 20},
+        {"text": f"{score['bowler']}", "position": (629, 23), "font_size": 20},
+        {"text": f"{score['bowler_figure']['ballsDelivered']}", "position": (757, 23), "font_size": 20},
+        {"text": f"balls", "position": (750, 49), "font_size": 12},
+        {"text": f"{score['bowler_figure']['runsGiven']}", "position": (802, 23), "font_size": 20},
+        {"text": f"runs", "position": (798, 49), "font_size": 12},
+        {"text": f"{score['bowler_figure']['wickets']}", "position": (855, 23), "font_size": 20},
+        {"text": f"wickets", "position": (840, 49), "font_size": 12},
     ]
 
     # Loop through score elements and add each to the image
